@@ -2,13 +2,11 @@
 // Inserting and deleting nodes in a list
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 
 // self-referential structure                       
 struct Node {                                      
    int data; // each listNode contains a character 
    struct Node *nextPtr; // pointer to next node
-   char user[30];
 }; // end structure listNode                        
 
 typedef struct Node LLnode; // synonym for struct listNode
@@ -16,9 +14,9 @@ typedef LLnode *LLPtr; // synonym for ListNode*
 
 // prototypes
 
-int deletes( LLPtr *sPtr, int value);
+int deletes( LLPtr *sPtr, int value );
 int isEmpty( LLPtr sPtr );
-void insert( LLPtr *sPtr, int value, char names[30]);
+void insert( LLPtr *sPtr, int value );
 void printList( LLPtr currentPtr );
 void instructions( void );
 
@@ -27,7 +25,6 @@ int main( void )
    LLPtr startPtr = NULL; // initially there are no nodes
    unsigned int choice; // user's choice
    int item; // char entered by user
-   char name[30]; 
 
    instructions(); // display the menu
    printf( "%s", "? " );
@@ -38,11 +35,9 @@ int main( void )
 
       switch ( choice ) { 
          case 1:
-            printf("%s", "Enter your ID : " );
-            scanf("%d",&item );
-            printf("Enter your name : ");
-            scanf("%s",name);
-            insert(&startPtr,item,name); // insert in list
+            printf( "%s", "Enter a number: " );
+            scanf( "%d", &item );
+            insert( &startPtr, item ); // insert item in list
             printList( startPtr );
             break;
          case 2: // delete an element
@@ -52,7 +47,7 @@ int main( void )
                scanf( "%d", &item );
 
                // if character is found, remove it
-            if ( deletes( &startPtr, item ) ) { // remove item
+               if ( deletes( &startPtr, item ) ) { // remove item
                   printf( "%d deleted.\n", item );
                   printList( startPtr );
                } // end if
@@ -88,7 +83,7 @@ void instructions( void )
 } // end function instructions
 
 // insert a new value into the list in sorted order
-void insert( LLPtr *sPtr, int value , char names[30])
+void insert( LLPtr *sPtr, int value )
 { 
    LLPtr newPtr; // pointer to new node
    LLPtr previousPtr; // pointer to previous node in list
@@ -99,7 +94,6 @@ void insert( LLPtr *sPtr, int value , char names[30])
    if ( newPtr != NULL ) { // is space available
       newPtr->data = value; // place value in node
       newPtr->nextPtr = NULL; // node does not link to another node
-      strcpy(newPtr->user,names);
     
        
       previousPtr = NULL;
@@ -114,6 +108,7 @@ void insert( LLPtr *sPtr, int value , char names[30])
       // insert new node at beginning of list
       if ( previousPtr == NULL ) { 
          newPtr->nextPtr = *sPtr;
+      
          *sPtr = newPtr;
         
       } // end if
@@ -184,12 +179,15 @@ void printList( LLPtr currentPtr )
       puts( "The list is:" );
 
       // while not the end of the list
-      while ( currentPtr->nextPtr != NULL ) {
-    printf( "%d  %s --> ", currentPtr->data , currentPtr->user);
-    currentPtr = currentPtr->nextPtr;   
+      while ( currentPtr->nextPtr!= NULL ) {
+         printf( "%d --> ", currentPtr->data );
+         currentPtr = currentPtr->nextPtr;   
       } // end while
 
-    printf( "%d %s --> NULL\n",currentPtr->data,currentPtr->user);
-    } // end else
-  
+      printf( "%d --> NULL\n",currentPtr->data );
+       
+
+     
+       
+   } // end else
 } // end function printList
